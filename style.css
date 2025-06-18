@@ -104,6 +104,8 @@ Only critical CSS for above-the-fold content is included here.
     padding: 3rem 4rem;
     max-width: calc(800px + 240px);
     width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 /* Mobile responsive styles */
@@ -190,6 +192,18 @@ Only critical CSS for above-the-fold content is included here.
 /* Fix any potential layout issues */
 .wp-block-group.container .wp-block-template-part {
     flex-shrink: 0;
+}
+
+/* Ensure no content overflows or overlaps */
+.wp-block-group.container {
+    overflow-x: hidden;
+}
+
+/* Better spacing for content elements */
+.wp-block-group.main-content > * {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Ensure text remains readable during webfont load */
