@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Sample WordPress Theme Unit Test Data
+This file contains sample content for testing the Kiwi Theme
+Based on WordPress.org Theme Unit Test Data
+-->
+<rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
+  <channel>
+    <title>Kiwi Theme Test Site</title>
+    <link>http://localhost:8080</link>
+    <description>Test site for Kiwi Theme development</description>
+    <pubDate>Thu, 18 Jun 2025 00:00:00 +0000</pubDate>
+    <language>en-US</language>
+    <wp:wxr_version>1.2</wp:wxr_version>
+    <wp:base_site_url>http://localhost:8080</wp:base_site_url>
+    <wp:base_blog_url>http://localhost:8080</wp:base_blog_url>
+    
+    <!-- Sample Page -->
+    <item>
+      <title>About Page</title>
+      <link>http://localhost:8080/about/</link>
+      <pubDate>Thu, 18 Jun 2025 12:00:00 +0000</pubDate>
+      <dc:creator>admin</dc:creator>
+      <guid isPermaLink="false">http://localhost:8080/?page_id=2</guid>
+      <description></description>
+      <content:encoded><![CDATA[
+        <p>This is a sample about page for testing the Kiwi Theme. It should demonstrate proper typography, spacing, and layout handling.</p>
+        
+        <h2>Heading Level 2</h2>
+        <p>This paragraph follows a heading to test proper spacing and hierarchy.</p>
+        
+        <h3>Heading Level 3</h3>
+        <p>Another paragraph with different content to test consistency.</p>
+        
+        <blockquote>
+          <p>This is a blockquote to test quote styling and indentation.</p>
+        </blockquote>
+        
+        <ul>
+          <li>List item one</li>
+          <li>List item two</li>
+          <li>List item three</li>
+        </ul>
+      ]]></content:encoded>
+      <wp:post_id>2</wp:post_id>
+      <wp:post_date>2025-06-18 12:00:00</wp:post_date>
+      <wp:post_date_gmt>2025-06-18 12:00:00</wp:post_date_gmt>
+      <wp:comment_status>open</wp:comment_status>
+      <wp:ping_status>open</wp:ping_status>
+      <wp:post_name>about</wp:post_name>
+      <wp:status>publish</wp:status>
+      <wp:post_parent>0</wp:post_parent>
+      <wp:menu_order>0</wp:menu_order>
+      <wp:post_type>page</wp:post_type>
+      <wp:post_password></wp:post_password>
+    </item>
+    
+    <!-- Sample Blog Post -->
+    <item>
+      <title>Welcome to Kiwi Theme</title>
+      <link>http://localhost:8080/welcome-to-kiwi-theme/</link>
+      <pubDate>Thu, 18 Jun 2025 14:00:00 +0000</pubDate>
+      <dc:creator>admin</dc:creator>
+      <guid isPermaLink="false">http://localhost:8080/?p=1</guid>
+      <description></description>
+      <content:encoded><![CDATA[
+        <p>Welcome to the Kiwi Theme! This is a sample blog post to demonstrate the theme's capabilities.</p>
+        
+        <p>This theme is designed to be accessible, fast, and flexible. It supports Full Site Editing and modern WordPress features.</p>
+        
+        <h2>Features</h2>
+        <ul>
+          <li>Full Site Editing support</li>
+          <li>WCAG 2.1 AA accessibility compliance</li>
+          <li>Modern CSS features</li>
+          <li>Responsive design</li>
+          <li>Performance optimized</li>
+        </ul>
+        
+        <h3>Getting Started</h3>
+        <p>To customize this theme, visit the Site Editor in your WordPress admin area.</p>
+        
+        <blockquote>
+          <p>The theme emphasizes clean design and technical excellence while supporting diverse content formats.</p>
+        </blockquote>
+      ]]></content:encoded>
+      <wp:post_id>1</wp:post_id>
+      <wp:post_date>2025-06-18 14:00:00</wp:post_date>
+      <wp:post_date_gmt>2025-06-18 14:00:00</wp:post_date_gmt>
+      <wp:comment_status>open</wp:comment_status>
+      <wp:ping_status>open</wp:ping_status>
+      <wp:post_name>welcome-to-kiwi-theme</wp:post_name>
+      <wp:status>publish</wp:status>
+      <wp:post_parent>0</wp:post_parent>
+      <wp:menu_order>0</wp:menu_order>
+      <wp:post_type>post</wp:post_type>
+      <wp:post_password></wp:post_password>
+      <category domain="category" nicename="uncategorized">Uncategorized</category>
+    </item>
+    
+    <!-- Sample Micro Post -->
+    <item>
+      <title>Quick Thought</title>
+      <link>http://localhost:8080/quick-thought/</link>
+      <pubDate>Thu, 18 Jun 2025 15:00:00 +0000</pubDate>
+      <dc:creator>admin</dc:creator>
+      <guid isPermaLink="false">http://localhost:8080/?p=3</guid>
+      <description></description>
+      <content:encoded><![CDATA[
+        <p>Just a quick thought to test the micro-post format. Short content should be handled elegantly.</p>
+      ]]></content:encoded>
+      <wp:post_id>3</wp:post_id>
+      <wp:post_date>2025-06-18 15:00:00</wp:post_date>
+      <wp:post_date_gmt>2025-06-18 15:00:00</wp:post_date_gmt>
+      <wp:comment_status>open</wp:comment_status>
+      <wp:ping_status>open</wp:ping_status>
+      <wp:post_name>quick-thought</wp:post_name>
+      <wp:status>publish</wp:status>
+      <wp:post_parent>0</wp:post_parent>
+      <wp:menu_order>0</wp:menu_order>
+      <wp:post_type>post</wp:post_type>
+      <wp:post_password></wp:post_password>
+      <wp:postmeta>
+        <wp:meta_key>_wp_post_format</wp:meta_key>
+        <wp:meta_value>aside</wp:meta_value>
+      </wp:postmeta>
+    </item>
+    
+  </channel>
+</rss>

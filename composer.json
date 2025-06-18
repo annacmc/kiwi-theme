@@ -1,0 +1,32 @@
+{
+  "name": "annakiwi/kiwi-theme",
+  "description": "A modern WordPress Full Site Editing (FSE) theme",
+  "type": "wordpress-theme",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Anna McPhee",
+      "email": "anna@kiwi-theme.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.7",
+    "wp-coding-standards/wpcs": "^2.3",
+    "phpunit/phpunit": "^9.5",
+    "wptrt/theme-check": "^1.0"
+  },
+  "scripts": {
+    "lint": "phpcs --standard=WordPress .",
+    "lint:fix": "phpcbf --standard=WordPress .",
+    "test": "phpunit",
+    "theme-check": "theme-check ."
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}
