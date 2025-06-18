@@ -1,0 +1,2 @@
+- at the end of each phase, ALWAYS at an honest self review to the development-log.md in this format "at each phase end, we should add an honest self review in this structure: "Lets review phase [#]. Do you feel like you covered everything in the instructional outline for this phase? What could you have done better? If you review the instructions from the other docs, do you find anything you missed, or any gaps in your method, or implementation?"
+- critical learnings should ALWAYS be added to the developer-journal

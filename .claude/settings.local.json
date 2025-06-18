@@ -11,7 +11,10 @@
       "Bash(git commit:*)",
       "Bash(mv:*)",
       "Bash(rm:*)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(chmod:*)",
+      "Bash(npm install:*)",
+      "Bash(find:*)"
     ],
     "deny": []
   }
