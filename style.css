@@ -75,13 +75,14 @@ Only critical CSS for above-the-fold content is included here.
 }
 
 /* Basic container styles */
-.container {
+.wp-block-group.container {
     display: flex;
     min-height: 100vh;
+    align-items: flex-start;
 }
 
 /* Sidebar positioning */
-.sidebar {
+.wp-block-group.sidebar {
     position: fixed;
     left: 0;
     top: 0;
@@ -93,29 +94,31 @@ Only critical CSS for above-the-fold content is included here.
     overflow-y: auto;
     z-index: 100;
     font-size: 0.9rem;
+    flex-shrink: 0;
 }
 
 /* Main content positioning */
-.main-content {
+.wp-block-group.main-content {
     margin-left: 240px;
     flex: 1;
     padding: 3rem 4rem;
     max-width: calc(800px + 240px);
+    width: 100%;
 }
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {
-    .sidebar {
+    .wp-block-group.sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
         width: 240px;
     }
     
-    .sidebar.open {
+    .wp-block-group.sidebar.open {
         transform: translateX(0);
     }
     
-    .main-content {
+    .wp-block-group.main-content {
         margin-left: 0;
         padding: 2rem 1.5rem;
         max-width: 100%;
@@ -147,6 +150,46 @@ Only critical CSS for above-the-fold content is included here.
 :focus {
     outline: 2px solid #7b68ee;
     outline-offset: 2px;
+}
+
+/* Form styling for subscription box */
+.subscribe-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.subscribe-input {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.subscribe-btn {
+    padding: 0.5rem 1rem;
+    background: #7b68ee;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.subscribe-btn:hover {
+    background: #6952cc;
+}
+
+/* Ensure proper text wrapping */
+.wp-block-group.sidebar * {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Fix any potential layout issues */
+.wp-block-group.container .wp-block-template-part {
+    flex-shrink: 0;
 }
 
 /* Ensure text remains readable during webfont load */

@@ -15,14 +15,14 @@
     <div class="wp-block-group about-section">
         
         <!-- wp:paragraph {"className":"about-text","style":{"typography":{"fontSize":"var:preset|font-size|sm","lineHeight":"1.6"}}} -->
-        <p class="about-text"><?php esc_html_e('A modern WordPress FSE theme designed for flexible content publishing. Features sidebar navigation, multiple content types, and adaptive publishing workflows.', 'kiwi-theme'); ?></p>
+        <p class="about-text">A modern WordPress FSE theme designed for flexible content publishing. Features sidebar navigation, multiple content types, and adaptive publishing workflows.</p>
         <!-- /wp:paragraph -->
         
     </div>
     <!-- /wp:group -->
     
     <!-- wp:group {"className":"nav-menu","style":{"spacing":{"margin":{"bottom":"var:preset|spacing|xl"}}}} -->
-    <nav class="wp-block-group nav-menu" role="navigation" aria-label="<?php esc_attr_e('Main navigation', 'kiwi-theme'); ?>">
+    <nav class="wp-block-group nav-menu" role="navigation" aria-label="Main navigation">
         
         <!-- wp:navigation {"ref":1,"className":"primary-navigation","overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"},"style":{"typography":{"fontSize":"var:preset|font-size|sm","fontWeight":"500"},"spacing":{"blockGap":"var:preset|spacing|sm"}}} /-->
         
@@ -41,19 +41,18 @@
     <div class="wp-block-group subscribe-box">
         
         <!-- wp:heading {"level":3,"className":"subscribe-title","style":{"typography":{"fontSize":"var:preset|font-size|base","fontWeight":"600"},"spacing":{"margin":{"bottom":"var:preset|spacing|sm"}}}} -->
-        <h3 class="wp-block-heading subscribe-title"><?php esc_html_e('Subscribe', 'kiwi-theme'); ?></h3>
+        <h3 class="wp-block-heading subscribe-title">Subscribe</h3>
         <!-- /wp:heading -->
         
         <!-- wp:paragraph {"className":"subscribe-text","style":{"typography":{"fontSize":"var:preset|font-size|xs"},"spacing":{"margin":{"bottom":"var:preset|spacing|md"}}}} -->
-        <p class="subscribe-text"><?php esc_html_e('Get new posts in your inbox', 'kiwi-theme'); ?></p>
+        <p class="subscribe-text">Get new posts in your inbox</p>
         <!-- /wp:paragraph -->
         
         <!-- wp:html -->
         <form class="subscribe-form" action="#" method="post">
-            <?php wp_nonce_field('kiwi_theme_subscribe', 'kiwi_theme_subscribe_nonce'); ?>
-            <label for="subscribe-email" class="screen-reader-text"><?php esc_html_e('Email Address', 'kiwi-theme'); ?></label>
-            <input type="email" id="subscribe-email" name="subscribe_email" class="subscribe-input" placeholder="<?php esc_attr_e('your@email.com', 'kiwi-theme'); ?>" required>
-            <button type="submit" class="subscribe-btn"><?php esc_html_e('Subscribe', 'kiwi-theme'); ?></button>
+            <label for="subscribe-email" class="screen-reader-text">Email Address</label>
+            <input type="email" id="subscribe-email" name="subscribe_email" class="subscribe-input" placeholder="your@email.com" required>
+            <button type="submit" class="subscribe-btn">Subscribe</button>
         </form>
         <!-- /wp:html -->
         
@@ -78,15 +77,7 @@
     <div class="wp-block-group sidebar-footer">
         
         <!-- wp:paragraph {"className":"theme-info","style":{"typography":{"fontSize":"var:preset|font-size|xs"},"color":{"text":"var:preset|color|kiwi-text-light"}}} -->
-        <p class="theme-info">
-            <?php
-            printf(
-                /* translators: %s: Theme name */
-                esc_html__('Built with %s', 'kiwi-theme'),
-                '<a href="#" rel="nofollow">Kiwi Theme</a>'
-            );
-            ?>
-        </p>
+        <p class="theme-info">Built with <a href="#" rel="nofollow">Kiwi Theme</a></p>
         <!-- /wp:paragraph -->
         
     </div>
