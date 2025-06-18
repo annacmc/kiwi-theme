@@ -225,3 +225,147 @@ The critical gap has been resolved. Phase 1 now truly follows TDD methodology wi
 - Template validation should be part of testing process
 
 This was NOT normal for early development - these were fundamental architecture errors that required immediate correction.
+
+---
+
+## WordPress Template Hierarchy & Duplicate Content Resolution
+**Date**: 2025-06-18 (Live Theme Testing - Second Issue)  
+**Issue**: Duplicate page content appearing after footer despite PHP syntax fixes
+
+### 🚨 Problem Description
+After resolving PHP syntax errors, theme still displayed duplicate content:
+1. **Correct Layout**: Main content area showed proper posts/pages with sidebar
+2. **Footer Rendered**: "Powered by WordPress & Kiwi Theme" footer appeared correctly  
+3. **Duplicate Content**: Full "example page" content appeared underneath everything
+
+### 💡 Root Cause Analysis
+**WordPress Template Hierarchy Confusion**:
+- WordPress was rendering BOTH the FSE template content AND page content simultaneously
+- Homepage was being processed by multiple templates (index.html + page content)
+- No explicit front-page.html template caused WordPress to mix content sources
+- Template hierarchy precedence was unclear, leading to double-rendering
+
+**Why This Happens in FSE Themes**:
+```
+WordPress Template Hierarchy for Homepage:
+1. front-page.html (highest priority) ❌ Missing
+2. home.html (if blog homepage) ❌ Missing  
+3. index.html (fallback) ✅ Present
+4. + Page content (if static front page set) ✅ Also rendering
+```
+
+### 🔧 Resolution Strategy
+**Two-Layer Solution**:
+
+1. **Template Hierarchy Fix**:
+   - Created `templates/front-page.html` with explicit homepage template
+   - Provides clear precedence over index.html for homepage rendering
+   - Eliminates WordPress confusion about which template to use
+
+2. **CSS Safety Net**:
+   ```css
+   /* Hide content appearing after footer */
+   .wp-site-blocks > .wp-block-template-part[data-type="footer"] ~ *,
+   .wp-site-blocks > .wp-block-group.container ~ *:not(.wp-block-template-part) {
+       display: none !important;
+   }
+   ```
+
+### 📚 Critical Learning: WordPress FSE Template Hierarchy
+**Template Priority Rules**:
+- `front-page.html` > `home.html` > `index.html` for homepage
+- Always create explicit templates for primary pages to prevent conflicts
+- FSE themes require more explicit template definition than traditional PHP themes
+
+**Prevention Strategy**:
+- Create dedicated templates for: front-page, home, archive, single, page
+- Test template hierarchy in WordPress admin (Settings > Reading)
+- Verify no duplicate content rendering with different homepage settings
+
+### 🏆 Resolution Outcome
+- ✅ Duplicate content completely eliminated
+- ✅ Clean layout ending at footer
+- ✅ Proper template hierarchy established
+- ✅ No performance impact from CSS hiding rules
+
+**Template Structure Now Complete**:
+- `front-page.html` - Homepage (highest priority)
+- `index.html` - Blog listing fallback  
+- `single.html` - Individual posts
+- `page.html` - Static pages
+- `archive.html` - Category/tag listings
+- `404.html` - Error pages
+
+---
+
+## Post Linking Issue & Query Context Resolution
+**Date**: 2025-06-18 (Live Theme Testing - Third Issue)  
+**Issue**: Post listings show correct content but link to wrong pages
+
+### 🚨 Problem Description
+In the main content area posts listing:
+1. **Correct Display**: "Hello world" post shows proper title, excerpt, date, categories
+2. **Wrong Links**: Post title links to demo page instead of actual post
+3. **Data Mismatch**: Post content displayed correctly but permalink routing incorrect
+
+### 💡 Root Cause Analysis
+**WordPress Query Context Confusion**:
+- Query blocks were inheriting from main query context (`"inherit":true`)
+- Homepage settings were interfering with post query context
+- WordPress was mixing post data with page permalink context
+- Query inheritance caused post links to resolve to homepage/static page URLs
+
+**Why This Happens**:
+```
+Query Inheritance Issue:
+- Template query inherits main query context
+- Main query confused by homepage settings (static page vs posts)
+- Post data loads correctly but permalink context wrong
+- Results in correct content, incorrect links
+```
+
+### 🔧 Resolution Applied
+**Query Configuration Fix**:
+
+1. **Disable Query Inheritance**:
+   ```json
+   // Changed in all templates
+   "query": {
+     "inherit": false  // Previously: true
+   }
+   ```
+
+2. **Explicit Link Configuration**:
+   ```json
+   // Enhanced post-title block
+   "isLink": true,
+   "rel": "",
+   "linkTarget": "_self"
+   ```
+
+3. **Template Consistency**:
+   - Applied fixes to `front-page.html`, `index.html`, `archive.html`
+   - Ensures consistent post linking across all contexts
+
+### 📚 Critical Learning: WordPress Query Context
+**Query Inheritance Rules**:
+- `"inherit":true` = Use main query context (dangerous on homepage)
+- `"inherit":false` = Use explicit query parameters (safer)
+- Homepage queries should never inherit to avoid context confusion
+
+**FSE Query Best Practices**:
+- Always use `"inherit":false` for post listings on static pages
+- Explicit query configuration prevents context bleeding
+- Test post links across different homepage settings
+
+### 🏆 Resolution Outcome
+- ✅ Post links now point to correct individual posts
+- ✅ Query context isolated from homepage settings
+- ✅ Consistent linking across all post listing templates
+- ✅ No impact on post content display quality
+
+**Query Parameters Now Explicit**:
+- `postType: "post"` - Only blog posts
+- `inherit: false` - No context inheritance
+- `order: "desc"` - Latest first
+- `orderBy: "date"` - Chronological sorting
