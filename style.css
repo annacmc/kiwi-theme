@@ -74,11 +74,10 @@ Only critical CSS for above-the-fold content is included here.
     padding: 0;
 }
 
-/* Basic container styles */
+/* Basic container styles - remove flex to prevent conflicts */
 .wp-block-group.container {
-    display: flex;
+    position: relative;
     min-height: 100vh;
-    align-items: flex-start;
 }
 
 /* Sidebar positioning */
@@ -94,16 +93,14 @@ Only critical CSS for above-the-fold content is included here.
     overflow-y: auto;
     z-index: 100;
     font-size: 0.9rem;
-    flex-shrink: 0;
+    box-sizing: border-box;
 }
 
 /* Main content positioning */
 .wp-block-group.main-content {
     margin-left: 240px;
-    flex: 1;
     padding: 3rem 4rem;
-    max-width: calc(800px + 240px);
-    width: 100%;
+    max-width: calc(800px);
     min-height: 100vh;
     box-sizing: border-box;
 }
@@ -124,6 +121,14 @@ Only critical CSS for above-the-fold content is included here.
         margin-left: 0;
         padding: 2rem 1.5rem;
         max-width: 100%;
+    }
+    
+    .wp-block-group.site-footer {
+        margin-left: 0;
+    }
+    
+    .wp-site-blocks > .wp-block-template-part[data-type="footer"] {
+        margin-left: 0;
     }
     
     .mobile-menu-toggle {
@@ -204,6 +209,18 @@ Only critical CSS for above-the-fold content is included here.
     max-width: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
+}
+
+/* Footer positioning */
+.wp-block-group.site-footer {
+    margin-left: 240px;
+    clear: both;
+    position: relative;
+}
+
+/* Ensure footer doesn't duplicate */
+.wp-site-blocks > .wp-block-template-part[data-type="footer"] {
+    margin-left: 240px;
 }
 
 /* Ensure text remains readable during webfont load */
