@@ -223,6 +223,20 @@ Only critical CSS for above-the-fold content is included here.
     margin-left: 240px;
 }
 
+/* Debug: Hide potential duplicate content */
+.wp-site-blocks > .wp-block-post-content,
+.wp-site-blocks > .wp-block-group:not(.container):not(.site-footer) {
+    display: none;
+}
+
+/* Show only our template structure */
+.wp-site-blocks > .wp-block-html,
+.wp-site-blocks > .wp-block-template-part,
+.wp-site-blocks > .wp-block-group.container,
+.wp-site-blocks > .wp-block-group.site-footer {
+    display: block;
+}
+
 /* Ensure text remains readable during webfont load */
 @font-face {
     font-display: swap;
