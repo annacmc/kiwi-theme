@@ -223,18 +223,17 @@ Only critical CSS for above-the-fold content is included here.
     margin-left: 240px;
 }
 
-/* Debug: Hide potential duplicate content */
-.wp-site-blocks > .wp-block-post-content,
-.wp-site-blocks > .wp-block-group:not(.container):not(.site-footer) {
-    display: none;
+/* Hide any content that appears after footer */
+.wp-site-blocks > .wp-block-template-part[data-type="footer"] ~ *,
+.wp-site-blocks > .wp-block-group.container ~ *:not(.wp-block-template-part),
+body.home .wp-site-blocks > *:nth-child(n+4) {
+    display: none !important;
 }
 
-/* Show only our template structure */
-.wp-site-blocks > .wp-block-html,
-.wp-site-blocks > .wp-block-template-part,
-.wp-site-blocks > .wp-block-group.container,
-.wp-site-blocks > .wp-block-group.site-footer {
-    display: block;
+/* Alternative approach - hide duplicate page content */
+.wp-site-blocks > .wp-block-post-content,
+.wp-site-blocks > .wp-block-group:has(.wp-block-post-content) {
+    display: none !important;
 }
 
 /* Ensure text remains readable during webfont load */
