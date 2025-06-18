@@ -180,3 +180,48 @@ After identifying the fundamental TDD methodology violation, I immediately imple
 - **Automation**: Both PHP and JavaScript testing frameworks operational
 
 The critical gap has been resolved. Phase 1 now truly follows TDD methodology with comprehensive test coverage before proceeding to Phase 2.
+
+---
+
+## Critical Production Issue Resolution
+**Date**: 2025-06-18 (Live Theme Testing)  
+**Issue**: Theme installed but displayed with critical errors and layout problems
+
+### 🚨 Critical Issues Discovered
+1. **PHP Syntax Errors in Frontend**: Raw PHP code (`<?php esc_attr`, `'Kiwi Theme`)?>`) visible in sidebar
+2. **Layout Failure**: Sidebar overlapping main content instead of positioned beside it
+3. **Missing Closing Tags**: Malformed HTML structure in templates
+4. **Template Architecture Error**: PHP code incorrectly placed in FSE HTML template files
+
+### 💡 Critical Learning: FSE Theme Template Architecture
+**FUNDAMENTAL RULE**: WordPress Full Site Editing (FSE) themes have strict separation of concerns:
+
+- **✅ HTML Templates** (`templates/*.html`, `parts/*.html`): PURE HTML with WordPress blocks only
+- **✅ PHP Code Location**: Only allowed in `functions.php`, pattern files (`patterns/*.php`), and hooks
+- **❌ NEVER Mix**: PHP syntax cannot be used directly in FSE template files
+
+**Before (WRONG)**:
+```html
+<!-- parts/sidebar.html -->
+<p><?php esc_html_e('Subscribe', 'kiwi-theme'); ?></p>
+```
+
+**After (CORRECT)**:
+```html
+<!-- parts/sidebar.html -->
+<p>Subscribe</p>
+```
+
+### 🔧 Resolution Applied
+1. **Removed ALL PHP code** from `.html` template files
+2. **Fixed CSS selectors** to target proper WordPress block structure (`.wp-block-group.sidebar`)
+3. **Added proper form styling** and mobile menu HTML structure
+4. **Corrected layout positioning** to prevent content overlap
+
+### 📚 Developer Guidelines Established
+- Always test theme activation immediately after initial implementation
+- FSE themes require different approach than traditional PHP themes
+- CSS must target WordPress-generated block classes, not custom classes
+- Template validation should be part of testing process
+
+This was NOT normal for early development - these were fundamental architecture errors that required immediate correction.
