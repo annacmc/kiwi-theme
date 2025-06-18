@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>anna.kiwi - Words, Workflows & Wildflowers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fefefe;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Fixed Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #fff;
+            border-right: 1px solid #ddd;
+            padding: 1.5rem 1rem;
+            overflow-y: auto;
+            z-index: 100;
+            font-size: 0.9rem;
+        }
+
+        .site-header {
+            margin-bottom: 2rem;
+        }
+
+        .site-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+        }
+
+        .site-title:hover {
+            color: #7b68ee;
+        }
+
+        .site-subtitle {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .about-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .about-text {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-menu li {
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-menu a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.25rem 0;
+            display: block;
+            transition: color 0.2s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #7b68ee;
+        }
+
+        .search-box {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #7b68ee;
+        }
+
+        .subscribe-box {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .subscribe-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .subscribe-text {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .subscribe-input {
+            width: 100%;
+            padding: 0.4rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subscribe-btn {
+            background: #7b68ee;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .subscribe-btn:hover {
+            background: #6c5ce7;
+        }
+
+        .sidebar-links {
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+
+        .sidebar-links a {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .sidebar-links a:hover {
+            color: #7b68ee;
+        }
+
+        /* Main Content Feed */
+        .main-content {
+            margin-left: 240px;
+            flex: 1;
+            padding: 3rem 4rem;
+            max-width: 800px;
+        }
+
+        .intro-section {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .intro-icon {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #7b68ee;
+        }
+
+        .intro-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #495057;
+            margin-bottom: 1rem;
+        }
+
+        .intro-text a {
+            color: #7b68ee;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.2s ease;
+        }
+
+        .intro-text a:hover {
+            border-bottom: 1px solid #7b68ee;
+        }
+
+        /* Content Feed */
+        .content-feed {
+            margin-top: 2rem;
+        }
+
+        .feed-item {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #f1f3f4;
+            transition: all 0.2s ease;
+        }
+
+        .feed-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .feed-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            color: #6c7b7f;
+        }
+
+        .post-type-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+        }
+
+        .post-type-post { background: #7b68ee; }
+        .post-type-micro { background: #20c997; }
+        .post-type-photo { background: #fd7e14; }
+        .post-type-serial { background: #e83e8c; }
+
+        .post-date {
+            margin-right: 1rem;
+        }
+
+        .post-category {
+            color: #7b68ee;
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .post-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .post-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .post-title a:hover {
+            color: #7b68ee;
+        }
+
+        .post-excerpt {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #495057;
+            margin-bottom: 1rem;
+        }
+
+        .read-more {
+            color: #7b68ee;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* Micro Post Styling */
+        .micro-post {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.25rem;
+            border-left: 3px solid #20c997;
+        }
+
+        .micro-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+
+        /* Photo Post Styling */
+        .photo-post {
+            text-align: center;
+        }
+
+        .photo-preview {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: linear-gradient(135deg, #6c7b7f, #7b68ee);
+            border-radius: 12px;
+            margin: 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .photo-preview:hover {
+            transform: scale(1.02);
+        }
+
+        /* Instagram-style Photo Grid */
+        .photo-grid-section {
+            margin: 3rem 0;
+            padding: 2rem 0;
+            border-top: 1px solid #f1f3f4;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .section-header-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title-small {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .see-all-small {
+            color: #7b68ee;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .see-all-small:hover {
+            color: #6c5ce7;
+        }
+
+        .instagram-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+
+        /* Responsive grid scaling - always 2 rows */
+        @media (min-width: 600px) {
+            .instagram-grid {
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                gap: 10px;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .instagram-grid {
+                grid-template-columns: repeat(5, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .instagram-grid {
+                grid-template-columns: repeat(6, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+
+        .insta-photo {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .insta-photo:hover {
+            transform: scale(1.02);
+        }
+
+        .photo-overlay-mini {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .insta-photo:hover .photo-overlay-mini {
+            opacity: 1;
+        }
+
+        .photo-title {
+            display: block;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        /* Load More */
+        .load-more {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .load-more-btn {
+            background: #7b68ee;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .load-more-btn:hover {
+            background: #6c5ce7;
+            transform: translateY(-1px);
+        }
+        .load-more {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .load-more-btn {
+            background: #7b68ee;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .load-more-btn:hover {
+            background: #6c5ce7;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 200px;
+            }
+            .main-content {
+                margin-left: 200px;
+                padding: 2rem 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block !important;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                width: 240px;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 2rem 1.5rem;
+            }
+            
+            .intro-title {
+                font-size: 2rem;
+            }
+
+            .instagram-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                grid-template-rows: repeat(2, 1fr) !important;
+                gap: 6px !important;
+            }
+
+            .mobile-menu-toggle {
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 200;
+                background: #7b68ee;
+                color: white;
+                border: none;
+                padding: 0.5rem;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-menu-toggle" style="display: none;">☰</button>
+    
+    <div class="container">
+        <!-- Fixed Sidebar -->
+        <nav class="sidebar">
+            <div class="site-header">
+                <a href="#" class="site-title">Anna.kiwi</a>
+                <div class="site-subtitle">Notes from a Nonlinear Life</div>
+            </div>
+            
+            <div class="about-section">
+                <div class="about-text">
+                    I build things with code, with words, with plants. I wrangle code at Automattic and find connections in unexpected places.
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="#about">About</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#creative-systems">Creative Systems</a></li>
+                <li><a href="#lived-stories">Lived Stories</a></li>
+                <li><a href="#slow-experiments">Slow Experiments</a></li>
+                <li><a href="#micros">Micros</a></li>
+                <li><a href="#photos">Photos</a></li>
+                <li><a href="#reading">Reading</a></li>
+                <li><a href="#digital-garden">Digital Garden</a></li>
+            </ul>
+            
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search...">
+            </div>
+            
+            <div class="subscribe-box">
+                <div class="subscribe-title">Subscribe</div>
+                <div class="subscribe-text">Get new posts in your inbox</div>
+                <input type="email" class="subscribe-input" placeholder="your@email.com">
+                <button class="subscribe-btn">Subscribe</button>
+            </div>
+            
+            <div class="sidebar-links">
+                <a href="#">RSS Feed</a>
+                <a href="#">Mastodon</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Email</a>
+            </div>
+        </nav>
+
+        <!-- Main Content Feed -->
+        <main class="main-content">
+            <section class="intro-section">
+                <div class="intro-icon">🌱</div>
+                <h1 class="intro-title">Hi, I'm Anna.</h1>
+                <div class="intro-text">
+                    I build things with code, with words, with plants. I wrangle code at <a href="#">Automattic</a> and find connections in unexpected places. After many nomadic years across 42 countries, I'm now in Australia raising my daughter and growing roots.
+                </div>
+                <div class="intro-text">
+                    I write about <strong>creative systems</strong>, <strong>lived stories</strong>, and <strong>slow experiments</strong> that emerge from a nonlinear life.
+                </div>
+            </section>
+
+            <div class="content-feed">
+                <!-- Blog Post -->
+                <article class="feed-item">
+                    <div class="post-meta">
+                        <span class="post-type-indicator post-type-post"></span>
+                        <span class="post-date">June 15, 2025</span>
+                        <a href="#" class="post-category category-creative-systems">Creative Systems</a>
+                    </div>
+                    <h2 class="post-title">
+                        <a href="#">Building ADHD-Friendly Publishing Workflows</a>
+                    </h2>
+                    <div class="post-excerpt">
+                        Creating publishing systems that work with your brain, not against it. How I built a WordPress setup that handles sporadic posting patterns, batch content creation, and mobile-first drafting for a nonlinear creative life.
+                    </div>
+                    <a href="#" class="read-more">Read more →</a>
+                </article>
+
+                <!-- Photo Post -->
+                <article class="feed-item photo-post">
+                    <div class="post-meta">
+                        <span class="post-type-indicator post-type-photo"></span>
+                        <span class="post-date">June 12, 2025</span>
+                        <a href="#" class="post-category category-slow-experiments">Slow Experiments</a>
+                    </div>
+                    <h2 class="post-title">
+                        <a href="#">Garden Progress: First Tomatoes Coming In</a>
+                    </h2>
+                    <div class="photo-preview">
+                        🍅 Photo: Garden tomatoes ripening
+                    </div>
+                    <div class="post-excerpt">
+                        Three months after planting, the cherry tomatoes are finally ready. There's something deeply satisfying about growing your own food, especially when you're used to living out of suitcases.
+                    </div>
+                </article>
+
+                <!-- Regular Post -->
+                <article class="feed-item">
+                    <div class="post-meta">
+                        <span class="post-type-indicator post-type-post"></span>
+                        <span class="post-date">June 8, 2025</span>
+                        <a href="#" class="post-category category-creative-systems">Creative Systems</a>
+                    </div>
+                    <h2 class="post-title">
+                        <a href="#">RSS-First Content Strategy for Modern Blogs</a>
+                    </h2>
+                    <div class="post-excerpt">
+                        Why RSS should be at the center of your content strategy, not an afterthought. Building multiple feeds for different audiences while keeping AI crawlers happy and maintaining an authentic voice.
+                    </div>
+                    <a href="#" class="read-more">Read more →</a>
+                </article>
+
+                <!-- Instagram-style Photo Grid -->
+                <section class="photo-grid-section">
+                    <div class="section-header-inline">
+                        <h3 class="section-title-small">Recent Photos</h3>
+                        <a href="#photos" class="see-all-small">see all →</a>
+                    </div>
+                    
+                    <div class="instagram-grid">
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #6c7b7f, #7b68ee);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Garden setup morning</span>
+                            </div>
+                        </div>
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #20c997, #fd7e14);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Workspace vibes</span>
+                            </div>
+                        </div>
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #e83e8c, #7b68ee);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Code & coffee</span>
+                            </div>
+                        </div>
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #fd7e14, #20c997);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Australia views</span>
+                            </div>
+                        </div>
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #7b68ee, #6c7b7f);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Plant progress</span>
+                            </div>
+                        </div>
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #20c997, #e83e8c);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Weekend builds</span>
+                            </div>
+                        </div>
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #fd7e14, #7b68ee);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Daughter's art</span>
+                            </div>
+                        </div>
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #6c7b7f, #20c997);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Morning coffee ritual</span>
+                            </div>
+                        </div>
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #e83e8c, #fd7e14);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Tool organization</span>
+                            </div>
+                        </div>
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #7b68ee, #20c997);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Bookshelf corner</span>
+                            </div>
+                        </div>
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #20c997, #6c7b7f);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Kitchen experiments</span>
+                            </div>
+                        </div>
+                        <div class="insta-photo" style="background: linear-gradient(135deg, #fd7e14, #e83e8c);">
+                            <div class="photo-overlay-mini">
+                                <span class="photo-title">Nature walks</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Micro Post -->
+                <article class="feed-item">
+                    <div class="post-meta">
+                        <span class="post-type-indicator post-type-micro"></span>
+                        <span class="post-date">June 6, 2025</span>
+                        <a href="#" class="post-category category-micros">Micros</a>
+                    </div>
+                    <div class="micro-post">
+                        <div class="micro-content">
+                            Just discovered that Linear's keyboard shortcuts work exactly how my brain expects them to. Finally, a tool that gets it. There's something beautiful about software that feels like an extension of your thinking process rather than an obstacle to it. ⚡
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Post -->
+                <article class="feed-item">
+                    <div class="post-meta">
+                        <span class="post-type-indicator post-type-post"></span>
+                        <span class="post-date">June 3, 2025</span>
+                        <a href="#" class="post-category category-lived-stories">Lived Stories</a>
+                    </div>
+                    <h2 class="post-title">
+                        <a href="#">From Nomad to Roots: Finding Home in Australia</a>
+                    </h2>
+                    <div class="post-excerpt">
+                        After 42 countries and years of constant movement, what does it mean to choose to stay in one place? Reflections on building a life in Victoria, Australia, and learning that home isn't a place you find—it's something you create.
+                    </div>
+                    <a href="#" class="read-more">Read more →</a>
+                </article>
+
+                <!-- Serial Fiction -->
+                <article class="feed-item">
+                    <div class="post-meta">
+                        <span class="post-type-indicator post-type-serial"></span>
+                        <span class="post-date">June 1, 2025</span>
+                        <a href="#" class="post-category category-lived-stories">Lived Stories</a>
+                    </div>
+                    <h2 class="post-title">
+                        <a href="#">The Connection Seeker - Chapter 1</a>
+                    </h2>
+                    <div class="post-excerpt">
+                        Maya could see patterns everywhere—in code, in conversations, in the way morning light hit her coffee cup. But the pattern she couldn't figure out was why she felt so disconnected in a world designed for connection.
+                    </div>
+                    <a href="#" class="read-more">Continue reading →</a>
+                </article>
+
+                <!-- Another Micro -->
+                <article class="feed-item">
+                    <div class="post-meta">
+                        <span class="post-type-indicator post-type-micro"></span>
+                        <span class="post-date">May 30, 2025</span>
+                        <a href="#" class="post-category category-micros">Micros</a>
+                    </div>
+                    <div class="micro-post">
+                        <div class="micro-content">
+                            RSS feeds are having a moment again. Love seeing people rediscover the joy of curated, chronological content. No algorithms, just pure signal. It's like finding a quiet library in the middle of a busy mall. 📚
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Photo Post -->
+                <article class="feed-item photo-post">
+                    <div class="post-meta">
+                        <span class="post-type-indicator post-type-photo"></span>
+                        <span class="post-date">May 28, 2025</span>
+                        <a href="#" class="post-category category-creative-systems">Creative Systems</a>
+                    </div>
+                    <h2 class="post-title">
+                        <a href="#">Workshop Setup: Building My Creative Space</a>
+                    </h2>
+                    <div class="photo-preview">
+                        🔧 Photo: Organized workspace with tools and plants
+                    </div>
+                    <div class="post-excerpt">
+                        Finally got my workspace organized in a way that sparks joy instead of anxiety. Plants, tools, and a setup that works for both coding sessions and hands-on building projects.
+                    </div>
+                </article>
+
+                <!-- Load More -->
+                <div class="load-more">
+                    <button class="load-more-btn">Load More Posts</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            
+            // Show mobile toggle on small screens
+            function checkScreenSize() {
+                if (window.innerWidth <= 768) {
+                    mobileToggle.style.display = 'block';
+                } else {
+                    mobileToggle.style.display = 'none';
+                    sidebar.classList.remove('open');
+                }
+            }
+            
+            checkScreenSize();
+            window.addEventListener('resize', checkScreenSize);
+            
+            mobileToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+            });
+            
+            // Simple infinite scroll simulation
+            const loadMoreBtn = document.querySelector('.load-more-btn');
+            loadMoreBtn.addEventListener('click', function() {
+                // In a real implementation, this would load more content via AJAX
+                this.textContent = 'Loading...';
+                setTimeout(() => {
+                    this.textContent = 'Load More Posts';
+                    // Add more posts here
+                }, 1000);
+            });
+            
+            console.log('Anna.kiwi blog loaded - Seth.blog style');
+        });
+    </script>
+</body>
+</html>
