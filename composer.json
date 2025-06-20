@@ -15,8 +15,7 @@
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.7",
     "wp-coding-standards/wpcs": "^2.3",
-    "phpunit/phpunit": "^9.5",
-    "wptrt/theme-check": "^1.0"
+    "phpunit/phpunit": "^9.5"
   },
   "scripts": {
     "lint": "phpcs --standard=WordPress .",
