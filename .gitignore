@@ -9,7 +9,7 @@ vendor/
 .prettierignore
 .husky/
 composer.lock
-package-lock.json
+# package-lock.json removed to enable npm ci in CI
 
 # Testing artifacts
 .phpunit.result.cache
