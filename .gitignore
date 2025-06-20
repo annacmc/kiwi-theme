@@ -4,7 +4,7 @@ node_modules/
 vendor/
 
 # Development files (local only)
-.eslintrc.js
+# .eslintrc.js is now included for CI
 .prettierrc
 .prettierignore
 .husky/
