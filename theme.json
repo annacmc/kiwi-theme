@@ -173,8 +173,8 @@
   },
   "styles": {
     "color": {
-      "background": "light-dark(var(--wp--preset--color--kiwi-background-light), var(--wp--preset--color--kiwi-background-dark))",
-      "text": "light-dark(var(--wp--preset--color--kiwi-text-light), var(--wp--preset--color--kiwi-text-dark))"
+      "background": "var(--wp--preset--color--kiwi-background-light)",
+      "text": "var(--wp--preset--color--kiwi-text-light)"
     },
     "typography": {
       "fontFamily": "var(--wp--preset--font-family--system-sans)",
