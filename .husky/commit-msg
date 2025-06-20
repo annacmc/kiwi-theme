@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Validating commit message..."
+
+# Get the commit message
+commit_msg=$(cat "$1")
+
+# Check for conventional commit format
+if ! echo "$commit_msg" | grep -qE "^(feat|fix|docs|style|refactor|test|chore|perf|ci|build)(\(.+\))?: .{1,50}"; then
+  echo "❌ Commit message must follow conventional commit format:"
+  echo "   feat: add new feature"
+  echo "   fix: resolve bug"
+  echo "   docs: update documentation"
+  echo "   style: format code"
+  echo "   refactor: restructure code"
+  echo "   test: add/update tests"
+  echo "   chore: maintenance tasks"
+  echo "   perf: improve performance"
+  echo "   ci: update CI/CD"
+  echo "   build: update build process"
+  echo ""
+  echo "Current message: $commit_msg"
+  exit 1
+fi
+
+# Check message length
+if [ ${#commit_msg} -gt 72 ]; then
+  echo "⚠️  Commit message is longer than 72 characters (${#commit_msg})"
+  echo "💡 Consider keeping the first line under 50 characters"
+fi
+
+# Prevent commit messages with merge conflict markers
+if echo "$commit_msg" | grep -q "<<<<<<\|>>>>>>\|======"; then
+  echo "❌ Commit message contains merge conflict markers"
+  exit 1
+fi
+
+echo "✅ Commit message validation passed!"
