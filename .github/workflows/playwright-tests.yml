@@ -40,7 +40,10 @@ jobs:
         wget https://wordpress.org/latest.tar.gz
         tar -xzf latest.tar.gz
         mv wordpress wp-test
-        cp -r . wp-test/wp-content/themes/kiwi-theme
+        
+        # Copy theme files (excluding problematic directories)
+        mkdir -p wp-test/wp-content/themes/kiwi-theme
+        rsync -av --exclude=node_modules --exclude=vendor --exclude=.git --exclude=wp-test . wp-test/wp-content/themes/kiwi-theme/
         
         # Install WP-CLI
         curl -O https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/utils/wp-cli.phar
@@ -51,6 +54,9 @@ jobs:
         cd wp-test
         wp config create --dbname=wordpress_test --dbuser=root --dbpass='' --dbhost=127.0.0.1
         wp core install --url=http://localhost:8080 --title="Test Site" --admin_user=admin --admin_password=admin --admin_email=test@example.com
+        
+        # Verify theme exists and activate
+        wp theme list
         wp theme activate kiwi-theme
 
     - name: Start WordPress server

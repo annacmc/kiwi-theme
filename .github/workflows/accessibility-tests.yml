@@ -48,7 +48,8 @@ jobs:
         wget https://wordpress.org/latest.tar.gz
         tar -xzf latest.tar.gz
         mv wordpress wp-test
-        cp -r . wp-test/wp-content/themes/kiwi-theme
+        mkdir -p wp-test/wp-content/themes/kiwi-theme
+        rsync -av --exclude=node_modules --exclude=vendor --exclude=.git --exclude=wp-test . wp-test/wp-content/themes/kiwi-theme/
         
         # Install WP-CLI
         curl -O https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/utils/wp-cli.phar
