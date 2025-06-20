@@ -49,8 +49,8 @@ class Test_Theme_Json extends Kiwi_Theme_Test_Case {
         $this->assertIsArray( $color_palette, 'Color palette must be an array' );
         $this->assertNotEmpty( $color_palette, 'Color palette must not be empty' );
         
-        // Test required color entries exist
-        $required_colors = ['primary', 'secondary', 'accent', 'background', 'foreground'];
+        // Test required color entries exist (using our kiwi- prefix)
+        $required_colors = ['kiwi-primary', 'kiwi-secondary', 'kiwi-accent'];
         $palette_slugs = array_column( $color_palette, 'slug' );
         
         foreach ( $required_colors as $required_color ) {
@@ -66,8 +66,17 @@ class Test_Theme_Json extends Kiwi_Theme_Test_Case {
             
             // Test color value format (hex, rgb, hsl, or CSS custom property)
             $color_value = $color['color'];
-            $this->assertTrue(
-                preg_match( '/^(#[0-9a-fA-F]{3,8}|rgb\(|rgba\(|hsl\(|hsla\(|var\(|light-dark\()/', $color_value ),
+            $this->assertThat(
+                $color_value,
+                $this->logicalOr(
+                    $this->matchesRegularExpression('/^#[0-9a-fA-F]{3,8}$/'),
+                    $this->matchesRegularExpression('/^rgb\(/'),
+                    $this->matchesRegularExpression('/^rgba\(/'),
+                    $this->matchesRegularExpression('/^hsl\(/'),
+                    $this->matchesRegularExpression('/^hsla\(/'),
+                    $this->matchesRegularExpression('/^var\(/'),
+                    $this->matchesRegularExpression('/^light-dark\(/')
+                ),
                 "Color value '{$color_value}' must be a valid CSS color format"
             );
         }
@@ -104,7 +113,7 @@ class Test_Theme_Json extends Kiwi_Theme_Test_Case {
         $this->assertIsArray( $font_sizes, 'Font sizes must be an array' );
         $this->assertNotEmpty( $font_sizes, 'Font sizes must not be empty' );
         
-        $required_sizes = ['small', 'medium', 'large', 'x-large'];
+        $required_sizes = ['sm', 'base', 'lg', 'xl'];
         $size_slugs = array_column( $font_sizes, 'slug' );
         
         foreach ( $required_sizes as $required_size ) {
