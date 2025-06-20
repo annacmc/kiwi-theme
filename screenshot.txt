@@ -1,0 +1,7 @@
+Kiwi Theme Screenshot
+
+This file is a placeholder for the theme screenshot.
+The actual screenshot.png should be 1200x900 pixels and show the theme's design.
+
+For now, this theme is ready for testing with WordPress.
+The screenshot can be added later when the theme design is finalized.

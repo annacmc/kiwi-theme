@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<phpunit
+    bootstrap="tests/phpunit/bootstrap-simple.php"
+    backupGlobals="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    stopOnFailure="false"
+    testdox="true"
+    verbose="true"
+>
+    <testsuites>
+        <testsuite name="Kiwi Theme Test Suite">
+            <file>./tests/phpunit/test-theme-structure.php</file>
+            <file>./tests/phpunit/test-theme-json.php</file>
+            <file>./tests/phpunit/test-accessibility.php</file>
+        </testsuite>
+    </testsuites>
+    
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./</directory>
+            <exclude>
+                <directory>./tests/</directory>
+                <directory>./node_modules/</directory>
+                <directory>./vendor/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    
+    <php>
+        <env name="WP_TESTS_DIR" value="/tmp/wordpress-tests-lib" />
+        <env name="WP_CORE_DIR" value="/tmp/wordpress/" />
+    </php>
+</phpunit>

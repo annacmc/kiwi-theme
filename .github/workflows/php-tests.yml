@@ -1,0 +1,62 @@
+name: PHP Tests
+on:
+  push:
+    branches: [ main, master, develop, 'feature/*', 'bugfix/*' ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        wordpress-version: ['6.4', '6.5', '6.6', 'latest']
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: mysql, mysqli, pdo_mysql, zip, gd, mbstring, curl, xml, bcmath
+        coverage: xdebug
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Install WordPress Test Suite
+      run: |
+        bash bin/install-wp-tests.sh wordpress_test root root 127.0.0.1:3306 ${{ matrix.wordpress-version }}
+
+    - name: Run PHPUnit tests
+      run: ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+
+    - name: Upload coverage to Codecov
+      if: matrix.php-version == '8.2' && matrix.wordpress-version == 'latest'
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage.xml
+        flags: phpunit
+        name: php-${{ matrix.php-version }}-wp-${{ matrix.wordpress-version }}
+
+    - name: WordPress Theme Check
+      if: matrix.php-version == '8.2'
+      run: |
+        wp --allow-root core download --path=/tmp/wordpress --version=${{ matrix.wordpress-version }}
+        wp --allow-root config create --path=/tmp/wordpress --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1:3306
+        wp --allow-root core install --path=/tmp/wordpress --url=http://localhost --title="Test Site" --admin_user=admin --admin_password=admin --admin_email=test@example.com
+        wp --allow-root theme activate kiwi-theme --path=/tmp/wordpress
+        wp --allow-root theme is-active kiwi-theme --path=/tmp/wordpress

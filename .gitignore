@@ -1,0 +1,22 @@
+
+# Dependencies
+node_modules/
+vendor/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Testing artifacts
+.phpunit.result.cache
+
+# IDE and OS files
+.DS_Store
+.vscode/
+.idea/
+
+# Build artifacts
+dist/
+build/

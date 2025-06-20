@@ -1,0 +1,52 @@
+{
+  "name": "kiwi-theme",
+  "version": "1.0.0",
+  "description": "**Contributors:** kiwi-theme-team   **Tags:** blog, one-column, two-columns, custom-colors, custom-menu, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, translation-ready, accessibility-ready   **Requires at least:** 6.0   **Tested up to:** 6.4   **Requires PHP:** 7.4   **Stable tag:** 1.0.0   **License:** GPLv2 or later   **License URI:** http://www.gnu.org/licenses/gpl-2.0.html",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test:accessibility",
+    "test:accessibility": "playwright test --config=tests/accessibility/playwright.config.js",
+    "lint": "eslint . --ext .js,.ts",
+    "lint:fix": "eslint . --ext .js,.ts --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/annacmc/kiwi-theme.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/annacmc/kiwi-theme/issues"
+  },
+  "homepage": "https://github.com/annacmc/kiwi-theme#readme",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "^1.53.0",
+    "@types/node": "^24.0.3",
+    "@wordpress/eslint-plugin": "^22.11.0",
+    "eslint": "^8.57.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.5.3"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{php}": [
+      "composer run lint:fix"
+    ],
+    "*.{css,scss}": [
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}

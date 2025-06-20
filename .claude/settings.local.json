@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(mkdir:*)",
+      "Bash(ls:*)",
+      "Bash(php -l:*)",
+      "Bash(python:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
+      "Bash(touch:*)",
+      "Bash(chmod:*)",
+      "Bash(npm install:*)",
+      "Bash(find:*)",
+      "Bash(git push:*)",
+      "Bash(npm test)",
+      "Bash(./vendor/bin/phpunit)",
+      "Bash(npx playwright test:*)",
+      "Bash(composer install:*)",
+      "Bash(composer config:*)",
+      "Bash(./vendor/bin/phpunit:*)",
+      "Bash(bash:*)",
+      "Bash(npm run prepare:*)",
+      "Bash(npx husky init:*)",
+      "Bash(npm run test:accessibility:*)",
+      "Bash(node:*)",
+      "Bash(phpunit:*)",
+      "Bash(composer run lint:*)",
+      "Bash(./vendor/bin/phpcs:*)",
+      "Bash(brew services:*)",
+      "Bash(brew install:*)",
+      "Bash(php:*)"
+    ],
+    "deny": []
+  }
+}
