@@ -173,8 +173,8 @@
   },
   "styles": {
     "color": {
-      "background": "var(--wp--preset--color--kiwi-background-light)",
-      "text": "var(--wp--preset--color--kiwi-text-light)"
+      "background": "#ffffff",
+      "text": "#2c3e50"
     },
     "typography": {
       "fontFamily": "var(--wp--preset--font-family--system-sans)",
