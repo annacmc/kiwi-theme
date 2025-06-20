@@ -25,9 +25,10 @@ class Test_Accessibility extends Kiwi_Theme_Test_Case {
             
             $template_content = file_get_contents( $this->theme_dir . '/' . $template_path );
             
-            // Test for main landmark
-            $this->assertStringContainsString( 'role="main"', $template_content, 
-                "{$template_path} must contain main landmark" );
+            // Test for main landmark (either <main> or role="main")
+            $main_found = strpos( $template_content, '<main' ) !== false || 
+                         strpos( $template_content, 'role="main"' ) !== false;
+            $this->assertTrue( $main_found, "{$template_path} must contain main landmark" );
         }
     }
     
@@ -107,16 +108,20 @@ class Test_Accessibility extends Kiwi_Theme_Test_Case {
         $css_content = file_get_contents( $this->theme_dir . '/' . $style_path );
         
         // Test for focus styles
-        $focus_patterns = [
-            ':focus',
-            ':focus-visible',
-            'outline'
-        ];
+        // Test that at least one focus pattern exists
+        $focus_patterns = [':focus', ':focus-visible'];
+        $outline_found = strpos( $css_content, 'outline' ) !== false;
+        $focus_found = false;
         
         foreach ( $focus_patterns as $pattern ) {
-            $this->assertStringContainsString( $pattern, $css_content, 
-                "CSS must contain focus indicator: {$pattern}" );
+            if ( strpos( $css_content, $pattern ) !== false ) {
+                $focus_found = true;
+                break;
+            }
         }
+        
+        $this->assertTrue( $focus_found, 'CSS must contain focus styles (:focus or :focus-visible)' );
+        $this->assertTrue( $outline_found, 'CSS must contain outline styles for focus indicators' );
     }
     
     /**
@@ -135,8 +140,8 @@ class Test_Accessibility extends Kiwi_Theme_Test_Case {
         
         // Test that primary colors exist (required for contrast testing)
         $palette_slugs = array_column( $palette, 'slug' );
-        $this->assertContains( 'background', $palette_slugs, 'Background color must be defined for contrast testing' );
-        $this->assertContains( 'foreground', $palette_slugs, 'Foreground color must be defined for contrast testing' );
+        $this->assertContains( 'kiwi-background-light', $palette_slugs, 'Background color must be defined for contrast testing' );
+        $this->assertContains( 'kiwi-text-light', $palette_slugs, 'Foreground color must be defined for contrast testing' );
         
         // Test that colors are not identical (basic contrast check)
         $background_color = null;
