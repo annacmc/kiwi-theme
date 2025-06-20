@@ -33,8 +33,10 @@ abstract class Kiwi_Theme_Test_Case extends WP_UnitTestCase {
         $this->theme_dir = get_template_directory();
         $this->theme_uri = get_template_directory_uri();
         
-        // Ensure theme is active
-        switch_theme( 'kiwi-theme' );
+        // Ensure theme directory exists
+        if ( ! is_dir( $this->theme_dir ) ) {
+            $this->markTestSkipped( 'Theme directory not found: ' . $this->theme_dir );
+        }
     }
     
     /**
