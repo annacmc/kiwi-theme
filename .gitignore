@@ -3,14 +3,27 @@
 node_modules/
 vendor/
 
-# Playwright
+# Development files (local only)
+.eslintrc.js
+.prettierrc
+.prettierignore
+.husky/
+composer.lock
+package-lock.json
+
+# Testing artifacts
+.phpunit.result.cache
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+tests/accessibility/tests/reports/
 
-# Testing artifacts
-.phpunit.result.cache
+# CI/CD (local development only)
+.github/workflows/
+
+# Personal settings
+.claude/settings.local.json
 
 # IDE and OS files
 .DS_Store
