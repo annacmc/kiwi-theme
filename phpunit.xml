@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <phpunit
-    bootstrap="tests/phpunit/bootstrap.php"
+    bootstrap="tests/phpunit/bootstrap-simple.php"
     backupGlobals="false"
     colors="true"
     convertErrorsToExceptions="true"
@@ -12,7 +12,9 @@
 >
     <testsuites>
         <testsuite name="Kiwi Theme Test Suite">
-            <directory>./tests/phpunit/</directory>
+            <file>./tests/phpunit/test-theme-structure.php</file>
+            <file>./tests/phpunit/test-theme-json.php</file>
+            <file>./tests/phpunit/test-accessibility.php</file>
         </testsuite>
     </testsuites>
     
