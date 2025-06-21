@@ -77,7 +77,7 @@ jobs:
         wget https://wordpress.org/latest.tar.gz
         tar -xzf latest.tar.gz
         mv wordpress wp-test
-        cp -r . wp-test/wp-content/themes/kiwi-theme
+        rsync -av --exclude=node_modules --exclude=vendor --exclude=.git --exclude=wp-test . wp-test/wp-content/themes/kiwi-theme/
         
         cd wp-test
         wp config create --dbname=wordpress_test --dbuser=root --dbpass='' --dbhost=127.0.0.1
