@@ -38,16 +38,28 @@ jobs:
         coverage: none
 
     - name: Install Composer dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: composer install --prefer-dist --no-progress
 
     - name: Install WordPress Test Suite
       run: |
-        sudo apt-get update
-        sudo apt-get install -y subversion
-        bash bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1 ${{ matrix.wordpress-version }}
+        # Check if we need the full WordPress test suite
+        if grep -q "bootstrap\.php" phpunit.xml; then
+          sudo apt-get update
+          sudo apt-get install -y subversion
+          bash bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1 ${{ matrix.wordpress-version }}
+        else
+          echo "Using simple bootstrap - WordPress test suite not required"
+        fi
 
     - name: Run PHPUnit tests
-      run: vendor/bin/phpunit
+      run: |
+        echo "Running PHPUnit tests..."
+        echo "Current directory: $(pwd)"
+        echo "PHPUnit version: $(vendor/bin/phpunit --version)"
+        echo "Test configuration:"
+        cat phpunit.xml
+        echo "Running tests..."
+        vendor/bin/phpunit --verbose
 
     - name: Upload coverage to Codecov
       if: matrix.php-version == '8.1' && matrix.wordpress-version == 'latest'
