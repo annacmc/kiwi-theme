@@ -1,0 +1,121 @@
+name: WordPress Theme Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  theme-validation:
+    name: WordPress Theme Validation
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.1
+        extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, json
+
+    - name: Setup WordPress test environment
+      run: |
+        # Install WordPress
+        wget https://wordpress.org/latest.tar.gz
+        tar -xzf latest.tar.gz
+        mv wordpress wp-test
+        mkdir -p wp-test/wp-content/themes/kiwi-theme
+        rsync -av --exclude=node_modules --exclude=vendor --exclude=.git --exclude=wp-test . wp-test/wp-content/themes/kiwi-theme/
+        
+        # Install WP-CLI
+        curl -fsSL https://github.com/wp-cli/wp-cli/releases/download/v2.10.0/wp-cli-2.10.0.phar -o wp-cli.phar
+        chmod +x wp-cli.phar
+        sudo mv wp-cli.phar /usr/local/bin/wp
+        
+        # Configure WordPress
+        cd wp-test
+        wp config create --dbname=wordpress_test --dbuser=root --dbpass='' --dbhost=127.0.0.1
+        wp core install --url=http://localhost --title="Theme Validation Site" --admin_user=admin --admin_password=admin --admin_email=test@example.com
+
+    - name: Activate Theme
+      run: |
+        cd wp-test
+        wp theme activate kiwi-theme
+        wp theme is-active kiwi-theme
+
+    - name: Import Theme Unit Test Data
+      run: |
+        cd wp-test
+        wget https://raw.githubusercontent.com/WPTT/theme-unit-test/master/themeunittestdata.wordpress.xml
+        wp import themeunittestdata.wordpress.xml --authors=create
+
+    - name: Theme Structure Validation
+      run: |
+        cd wp-test/wp-content/themes/kiwi-theme
+        
+        echo "Validating theme structure..."
+        
+        # Check required files
+        test -f style.css || { echo "❌ Missing style.css"; exit 1; }
+        test -f theme.json || { echo "❌ Missing theme.json"; exit 1; }
+        test -f functions.php || { echo "❌ Missing functions.php"; exit 1; }
+        test -f templates/index.html || { echo "❌ Missing templates/index.html"; exit 1; }
+        
+        # Validate theme.json
+        python3 -m json.tool theme.json > /dev/null || { echo "❌ Invalid theme.json"; exit 1; }
+        
+        # Check for required style.css header
+        if ! head -20 style.css | grep -q "Theme Name:"; then
+          echo "❌ Missing Theme Name in style.css header"
+          exit 1
+        fi
+        
+        echo "✅ Theme structure validation passed"
+
+    - name: PHP Syntax Validation
+      run: |
+        cd wp-test/wp-content/themes/kiwi-theme
+        find . -name "*.php" -exec php -l {} \; || { echo "❌ PHP syntax errors found"; exit 1; }
+        echo "✅ PHP syntax validation passed"
+
+    - name: WordPress Functions Check
+      run: |
+        cd wp-test/wp-content/themes/kiwi-theme
+        
+        echo "Checking for deprecated WordPress functions..."
+        
+        # Check for dangerous functions
+        if grep -r "eval\|exec\|system\|shell_exec" --include="*.php" .; then
+          echo "❌ Dangerous PHP functions found"
+          exit 1
+        fi
+        
+        echo "✅ No dangerous functions found"
+
+    - name: Theme Activation Test
+      run: |
+        cd wp-test
+        
+        # Test theme activation
+        wp theme activate kiwi-theme
+        
+        # Check for PHP errors
+        wp eval "error_reporting(E_ALL); ini_set('display_errors', 1); get_header();" || {
+          echo "❌ Theme activation generated PHP errors"
+          exit 1
+        }
+        
+        echo "✅ Theme activation test passed"

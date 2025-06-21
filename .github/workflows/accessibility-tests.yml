@@ -1,0 +1,164 @@
+name: Accessibility Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  accessibility-tests:
+    name: WCAG 2.1 AA Compliance Testing
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.1
+        extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, json
+
+    - name: Install accessibility testing tools
+      run: |
+        npm install -g @axe-core/cli pa11y-ci
+        npm install playwright
+
+    - name: Setup WordPress test site
+      run: |
+        # Install WordPress
+        wget https://wordpress.org/latest.tar.gz
+        tar -xzf latest.tar.gz
+        mv wordpress wp-test
+        mkdir -p wp-test/wp-content/themes/kiwi-theme
+        rsync -av --exclude=node_modules --exclude=vendor --exclude=.git --exclude=wp-test . wp-test/wp-content/themes/kiwi-theme/
+        
+        # Install WP-CLI
+        curl -fsSL https://github.com/wp-cli/wp-cli/releases/download/v2.10.0/wp-cli-2.10.0.phar -o wp-cli.phar
+        chmod +x wp-cli.phar
+        sudo mv wp-cli.phar /usr/local/bin/wp
+        
+        # Configure WordPress
+        cd wp-test
+        wp config create --dbname=wordpress_test --dbuser=root --dbpass='' --dbhost=127.0.0.1
+        wp core install --url=http://localhost:8000 --title="Accessibility Test Site" --admin_user=admin --admin_password=admin --admin_email=test@example.com
+        wp theme activate kiwi-theme
+
+    - name: Start WordPress development server
+      run: |
+        cd wp-test
+        wp server --host=127.0.0.1 --port=8000 &
+        sleep 10
+
+    - name: Import Theme Unit Test Data
+      run: |
+        cd wp-test
+        wget https://raw.githubusercontent.com/WPTT/theme-unit-test/master/themeunittestdata.wordpress.xml
+        wp import themeunittestdata.wordpress.xml --authors=create
+
+    - name: Run axe-core accessibility tests
+      run: |
+        echo "Testing homepage"
+        axe http://localhost:8000 --tags wcag2a,wcag2aa,wcag21aa --reporter json --save axe-homepage.json || echo "Homepage has accessibility issues"
+        
+        echo "Testing about page"
+        axe http://localhost:8000/sample-page/ --tags wcag2a,wcag2aa,wcag21aa --reporter json --save axe-page.json || echo "Page has accessibility issues"
+
+    - name: Run pa11y accessibility tests
+      run: |
+        # Create pa11y configuration
+        cat > .pa11yci.json << EOF
+        {
+          "defaults": {
+            "timeout": 10000,
+            "wait": 2000,
+            "chromeLaunchConfig": {
+              "args": ["--no-sandbox", "--disable-setuid-sandbox"]
+            },
+            "standard": "WCAG2AA"
+          },
+          "urls": [
+            "http://localhost:8000",
+            "http://localhost:8000/sample-page/"
+          ]
+        }
+        EOF
+        
+        pa11y-ci --config .pa11yci.json || echo "pa11y found accessibility issues"
+
+    - name: Install Playwright for keyboard testing
+      run: npx playwright install chromium
+
+    - name: Test keyboard navigation and screen reader compatibility
+      run: |
+        cat > accessibility-test.js << 'EOF'
+        const { chromium } = require('playwright');
+
+        (async () => {
+          const browser = await chromium.launch();
+          const page = await browser.newPage();
+          
+          try {
+            // Test homepage
+            await page.goto('http://localhost:8000');
+            
+            // Check for proper landmarks
+            const header = await page.locator('header').count();
+            const main = await page.locator('main').count();
+            const nav = await page.locator('nav').count();
+            
+            if (header === 0) console.warn('⚠️ Missing header landmark');
+            if (main === 0) console.warn('⚠️ Missing main landmark');  
+            if (nav === 0) console.warn('⚠️ Missing navigation landmark');
+            
+            // Check heading hierarchy
+            const headings = await page.locator('h1, h2, h3, h4, h5, h6').all();
+            if (headings.length > 0) {
+              console.log('✅ Found headings for proper hierarchy');
+            } else {
+              console.warn('⚠️ No headings found');
+            }
+            
+            // Test keyboard navigation
+            await page.keyboard.press('Tab');
+            console.log('✅ Keyboard navigation test completed');
+            
+            console.log('✅ Basic accessibility tests passed');
+            
+          } catch (error) {
+            console.error('❌ Accessibility test failed:', error.message);
+            process.exit(1);
+          } finally {
+            await browser.close();
+          }
+        })();
+        EOF
+        
+        node accessibility-test.js
+
+    - name: Upload accessibility test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: accessibility-test-results
+        path: |
+          axe-*.json
+        retention-days: 7

@@ -4,12 +4,12 @@ node_modules/
 vendor/
 
 # Development files (local only)
-.eslintrc.js
+# .eslintrc.js is now included for CI
 .prettierrc
 .prettierignore
 .husky/
 composer.lock
-package-lock.json
+# package-lock.json removed to enable npm ci in CI
 
 # Testing artifacts
 .phpunit.result.cache
@@ -19,8 +19,7 @@ package-lock.json
 /playwright/.cache/
 tests/accessibility/tests/reports/
 
-# CI/CD (local development only)
-.github/workflows/
+# CI/CD workflows are now included for GitHub Actions
 
 # Personal settings
 .claude/settings.local.json

@@ -18,16 +18,16 @@
         </testsuite>
     </testsuites>
     
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <coverage>
+        <include>
             <directory suffix=".php">./</directory>
-            <exclude>
-                <directory>./tests/</directory>
-                <directory>./node_modules/</directory>
-                <directory>./vendor/</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+        </include>
+        <exclude>
+            <directory>./tests/</directory>
+            <directory>./node_modules/</directory>
+            <directory>./vendor/</directory>
+        </exclude>
+    </coverage>
     
     <php>
         <env name="WP_TESTS_DIR" value="/tmp/wordpress-tests-lib" />

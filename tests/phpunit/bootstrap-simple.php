@@ -8,7 +8,7 @@
 
 // Define WordPress constants if not already defined
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', dirname( dirname( __DIR__ ) ) . '/' );
+	define( 'ABSPATH', dirname( dirname( dirname( __DIR__ ) ) ) . '/' );
 }
 
 if ( ! defined( 'WP_CONTENT_DIR' ) ) {

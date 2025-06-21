@@ -148,10 +148,10 @@ class Test_Accessibility extends Kiwi_Theme_Test_Case {
         $foreground_color = null;
         
         foreach ( $palette as $color ) {
-            if ( $color['slug'] === 'background' ) {
+            if ( $color['slug'] === 'kiwi-background-light' ) {
                 $background_color = $color['color'];
             }
-            if ( $color['slug'] === 'foreground' ) {
+            if ( $color['slug'] === 'kiwi-text-light' ) {
                 $foreground_color = $color['color'];
             }
         }

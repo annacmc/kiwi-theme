@@ -150,6 +150,41 @@
     }
     
     /**
+     * Enhanced keyboard navigation
+     */
+    function initKeyboardNavigation() {
+        // Global keyboard event handling
+        document.addEventListener('keydown', function(e) {
+            // Escape key handling for modals/dropdowns
+            if (e.key === 'Escape') {
+                const activeElement = document.activeElement;
+                
+                // Close any open dropdowns or modals
+                const openDropdowns = document.querySelectorAll('.dropdown.open, .modal.open');
+                openDropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('open');
+                });
+                
+                // Return focus to trigger element if available
+                if (activeElement && activeElement.hasAttribute('data-return-focus')) {
+                    const returnElement = document.getElementById(activeElement.getAttribute('data-return-focus'));
+                    if (returnElement) returnElement.focus();
+                }
+            }
+            
+            // Tab navigation enhancements
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+        
+        // Remove keyboard navigation class on mouse use
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-navigation');
+        });
+    }
+    
+    /**
      * Initialize theme enhancements
      */
     function init() {
@@ -157,6 +192,7 @@
         initSmoothScrolling();
         initFormAccessibility();
         initLazyLoadingFallback();
+        initKeyboardNavigation();
         
         // Add loaded class to body for CSS enhancements
         document.body.classList.add('js-loaded');

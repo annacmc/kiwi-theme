@@ -57,6 +57,16 @@
           "slug": "kiwi-neutral-300",
           "color": "#dee2e6",
           "name": "Kiwi Neutral 300"
+        },
+        {
+          "slug": "background",
+          "color": "#ffffff",
+          "name": "Background"
+        },
+        {
+          "slug": "foreground",
+          "color": "#2c3e50",
+          "name": "Foreground"
         }
       ]
     },
@@ -173,8 +183,8 @@
   },
   "styles": {
     "color": {
-      "background": "light-dark(var(--wp--preset--color--kiwi-background-light), var(--wp--preset--color--kiwi-background-dark))",
-      "text": "light-dark(var(--wp--preset--color--kiwi-text-light), var(--wp--preset--color--kiwi-text-dark))"
+      "background": "#ffffff",
+      "text": "#2c3e50"
     },
     "typography": {
       "fontFamily": "var(--wp--preset--font-family--system-sans)",
