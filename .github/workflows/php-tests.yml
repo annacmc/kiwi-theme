@@ -69,7 +69,7 @@ jobs:
       if: matrix.php-version == '8.1' && matrix.wordpress-version == 'latest'
       run: |
         # Install WP-CLI
-        curl -O https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/utils/wp-cli.phar
+        curl -fsSL https://github.com/wp-cli/wp-cli/releases/download/v2.10.0/wp-cli-2.10.0.phar -o wp-cli.phar
         chmod +x wp-cli.phar
         sudo mv wp-cli.phar /usr/local/bin/wp
         
